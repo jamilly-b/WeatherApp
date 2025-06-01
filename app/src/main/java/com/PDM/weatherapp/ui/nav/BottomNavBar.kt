@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
+
 @Composable
 fun BottomNavBar(navController: NavHostController, items: List<BottomNavItem>) {
     NavigationBar(
@@ -24,7 +25,7 @@ fun BottomNavBar(navController: NavHostController, items: List<BottomNavItem>) {
                 icon = { Icon(imageVector = item.icon, contentDescription = item.title) },
                 label = { Text(text = item.title, fontSize = 12.sp) },
                 alwaysShowLabel = true,
-                selected = currentRoute == item.route,
+                selected = currentRoute == item.route.toString(),
                 onClick = {
                     navController.navigate(item.route) {
                         // Volta a pilha de navegação até a startDestination

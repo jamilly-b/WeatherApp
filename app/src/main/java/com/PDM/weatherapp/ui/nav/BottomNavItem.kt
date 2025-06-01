@@ -7,10 +7,11 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.serialization.Serializable
 
+
 sealed interface Route {
-    @Serializable
+    @kotlinx.serialization.Serializable
     data object Home : Route
-    @Serializable
+    @kotlinx.serialization.Serializable
     data object List : Route
     @Serializable
     data object Map : Route
@@ -18,12 +19,10 @@ sealed interface Route {
 sealed class BottomNavItem(
     val title: String,
     val icon: ImageVector,
-    val route: Route)
+    val route: Route
+)
 {
-    data object HomeButton :
-        BottomNavItem("Início", Icons.Default.Home, Route.Home)
-    data object ListButton :
-        BottomNavItem("Favoritos", Icons.Default.Favorite, Route.List)
-    data object MapButton :
-        BottomNavItem("Mapa", Icons.Default.LocationOn, Route.Map)
+    data object HomeButton : BottomNavItem("Início", Icons.Default.Home, Route.Home)
+    data object ListButton : BottomNavItem("Favoritos", Icons.Default.Favorite, Route.List)
+    data object MapButton : BottomNavItem("Mapa", Icons.Default.LocationOn, Route.Map)
 }
