@@ -107,6 +107,8 @@ fun LoginPage(modifier: Modifier = Modifier) {
             ) {
                 Text("Limpar")
             }
+        }
+        Row(modifier = Modifier.fillMaxWidth()) {
             Button(
                 onClick = {
                     activity?.startActivity(
@@ -114,7 +116,10 @@ fun LoginPage(modifier: Modifier = Modifier) {
                             FLAG_ACTIVITY_SINGLE_TOP
                         )
                     )
-                }
+                },
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 4.dp)
             ) {
                 Text("Registre-se")
             }
