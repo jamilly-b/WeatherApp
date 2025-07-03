@@ -13,10 +13,10 @@ import com.PDM.weatherapp.ui.MapPage
 fun MainNavHost(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = "home"
+        startDestination = Route.Home
     ) {
-        composable("home") { HomePage() }
-        composable("list") { ListPage() }
-        composable("map") { MapPage() }
+        composable<Route.Home> { HomePage() }
+        composable<Route.List> { ListPage() }
+        composable<Route.Map> { MapPage() }
     }
 }
