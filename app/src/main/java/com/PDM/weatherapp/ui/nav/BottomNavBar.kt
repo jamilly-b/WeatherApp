@@ -18,21 +18,19 @@ fun BottomNavBar(navController: NavHostController, items: List<BottomNavItem>) {
         contentColor = Color.Black
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
+        val currentDestination = navBackStackEntry?.destination
 
         items.forEach { item ->
             NavigationBarItem(
                 icon = { Icon(imageVector = item.icon, contentDescription = item.title) },
                 label = { Text(text = item.title, fontSize = 12.sp) },
                 alwaysShowLabel = true,
-                selected = currentRoute == item.route.toString(),
+                selected = currentDestination?.hasRoute(item.route::class) == true,
                 onClick = {
                     navController.navigate(item.route) {
                         // Volta a pilha de navegação até a startDestination
-                        navController.graph.startDestinationRoute?.let { startRoute ->
-                            popUpTo(startRoute) {
-                                saveState = true
-                            }
+                        popUpTo(navController.graph.startDestinationId) {
+                            saveState = true
                         }
                         restoreState = true
                         launchSingleTop = true
