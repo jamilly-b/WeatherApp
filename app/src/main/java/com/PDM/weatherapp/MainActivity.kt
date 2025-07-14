@@ -36,6 +36,8 @@ import com.PDM.weatherapp.ui.nav.BottomNavItem
 import com.PDM.weatherapp.ui.nav.MainNavHost
 import com.PDM.weatherapp.ui.nav.Route
 import com.PDM.weatherapp.ui.theme.WeatherAppTheme
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 
 class MainActivity : ComponentActivity() {
@@ -66,7 +68,10 @@ class MainActivity : ComponentActivity() {
 
                             actions = {
 
-                                IconButton( onClick = { finish() } ) {
+                                IconButton(
+                                    onClick = {
+                                        Firebase.auth.signOut()
+                                    } ) {
                                     Icon(
                                         imageVector =
                                             Icons.AutoMirrored.Filled.ExitToApp,

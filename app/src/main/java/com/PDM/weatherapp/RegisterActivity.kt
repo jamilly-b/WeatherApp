@@ -33,6 +33,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.PDM.weatherapp.ui.theme.WeatherAppTheme
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,14 +104,16 @@ fun RegisterPage(modifier: Modifier = Modifier) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Button(
                 onClick = {
-                    if (password == validationpassword) {
-                        Toast.makeText(activity, "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show()
-                        activity?.startActivity(
-                            Intent(activity, LoginActivity::class.java).setFlags(FLAG_ACTIVITY_SINGLE_TOP)
-                        )
-                    } else {
-                        Toast.makeText(activity, "As senhas estão diferentes!", Toast.LENGTH_LONG).show()
-                    }
+                    Firebase.auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(activity!!) { task ->
+                            if (task.isSuccessful) {
+                                Toast.makeText(activity,
+                                    "Registro OK!", Toast.LENGTH_LONG).show()
+                            } else {
+                                Toast.makeText(activity,
+                                    "Registro FALHOU!", Toast.LENGTH_LONG).show()
+                            }
+                        }
                 },
                 enabled = email.isNotEmpty() && password.isNotEmpty() && nome.isNotEmpty(),
                 modifier = Modifier
