@@ -48,38 +48,31 @@ class FBDatabase {
         }
     }
     fun setListener(listener: Listener? = null) {
-        fun setListener(listener: Listener? = null) {
-            this.listener = listener
-        }
+        this.listener = listener
     }
     fun register(user: FBUser) {
-        fun register(user: FBUser) {
-            if (auth.currentUser == null)
-                throw RuntimeException("User not logged in!")
-            val uid = auth.currentUser!!.uid
-            db.collection("users").document(uid + "").set(user);
-        }
+        if (auth.currentUser == null)
+            throw RuntimeException("User not logged in!")
+        val uid = auth.currentUser!!.uid
+        db.collection("users").document(uid + "").set(user);
     }
     fun add(city: FBCity) {
-        fun add(city: FBCity) {
-            if (auth.currentUser == null)
-                throw RuntimeException("User not logged in!")
-            if (city.name == null || city.name!!.isEmpty())
-                throw RuntimeException("City with null or empty name!")
-            val uid = auth.currentUser!!.uid
-            db.collection("users").document(uid).collection("cities")
-                .document(city.name!!).set(city)
-        }
+        if (auth.currentUser == null)
+            throw RuntimeException("User not logged in!")
+        if (city.name == null || city.name!!.isEmpty())
+            throw RuntimeException("City with null or empty name!")
+        val uid = auth.currentUser!!.uid
+        db.collection("users").document(uid).collection("cities")
+            .document(city.name!!).set(city)
     }
+
     fun remove(city: FBCity) {
-        fun remove(city: FBCity) {
-            if (auth.currentUser == null)
-                throw RuntimeException("User not logged in!")
-            if (city.name == null || city.name!!.isEmpty())
-                throw RuntimeException("City with null or empty name!")
-            val uid = auth.currentUser!!.uid
-            db.collection("users").document(uid).collection("cities")
-                .document(city.name!!).delete()
-        }
+        if (auth.currentUser == null)
+            throw RuntimeException("User not logged in!")
+        if (city.name == null || city.name!!.isEmpty())
+            throw RuntimeException("City with null or empty name!")
+        val uid = auth.currentUser!!.uid
+        db.collection("users").document(uid).collection("cities")
+            .document(city.name!!).delete()
     }
 }

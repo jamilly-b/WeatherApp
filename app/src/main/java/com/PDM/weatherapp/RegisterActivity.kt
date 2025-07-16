@@ -1,5 +1,6 @@
 package com.PDM.weatherapp
 
+import android.R.attr.name
 import android.app.Activity
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
@@ -32,9 +33,12 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.PDM.weatherapp.db.fb.FBDatabase
+import com.PDM.weatherapp.db.fb.toFBUser
 import com.PDM.weatherapp.ui.theme.WeatherAppTheme
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.PDM.weatherapp.model.User
 
 class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +58,7 @@ class RegisterActivity : ComponentActivity() {
 @Composable
 fun RegisterPage(modifier: Modifier = Modifier) {
 
-    var nome by rememberSaveable { mutableStateOf("") }
+    var name by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var validationpassword by rememberSaveable { mutableStateOf("") }
@@ -75,9 +79,9 @@ fun RegisterPage(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = modifier.size(24.dp))
         OutlinedTextField(
-            value = nome,
+            value = name,
             label = { Text(text = "Digite seu nome") },
-            onValueChange = { nome = it },
+            onValueChange = { name = it },
             modifier = Modifier.fillMaxWidth(fraction = 0.9f)
         )
         OutlinedTextField(
@@ -107,15 +111,15 @@ fun RegisterPage(modifier: Modifier = Modifier) {
                     Firebase.auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(activity!!) { task ->
                             if (task.isSuccessful) {
-                                Toast.makeText(activity,
-                                    "Registro OK!", Toast.LENGTH_LONG).show()
+                                Toast.makeText(activity, "Registro OK!", Toast.LENGTH_LONG).show()
+                                FBDatabase().register(User(name, email).toFBUser())
                             } else {
                                 Toast.makeText(activity,
                                     "Registro FALHOU!", Toast.LENGTH_LONG).show()
                             }
                         }
                 },
-                enabled = email.isNotEmpty() && password.isNotEmpty() && nome.isNotEmpty(),
+                enabled = email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty(),
                 modifier = Modifier
                     .weight(1f)
                     .padding(end = 4.dp)
@@ -127,7 +131,7 @@ fun RegisterPage(modifier: Modifier = Modifier) {
                     email = ""
                     password = ""
                     validationpassword = ""
-                    nome = ""
+                    name = ""
                 },
                 modifier = Modifier
                     .weight(1f)
